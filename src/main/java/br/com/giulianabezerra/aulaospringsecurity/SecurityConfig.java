@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,7 +21,9 @@ public class SecurityConfig {
               authorizeConfig.anyRequest().authenticated();
             })
         .oauth2Login(Customizer.withDefaults())
-        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+        .oauth2ResourceServer(config -> {
+          config.jwt(Customizer.withDefaults());
+        })
         .build();
   }
 
